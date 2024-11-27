@@ -17,10 +17,8 @@ const Navbar = () => {
           <RouterLink to="/complaint" className="mr-4 hover:text-gray-200">
             অভিযোগ
           </RouterLink>
-          <RouterLink to="/admin">
-            <button className="border-2 border-teal-500 text-teal-500 px-4 py-2 rounded-md hover:bg-teal-600 hover:text-white">
-              অ্যাডমিন
-            </button>
+          <RouterLink to="/forum" className="mr-4 hover:text-gray-200">
+              ফোরাম
           </RouterLink>
         </div>
       </div>

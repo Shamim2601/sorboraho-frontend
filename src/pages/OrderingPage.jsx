@@ -11,7 +11,6 @@ const OrderingPage = () => {
   });
   const [supplyDate, setSupplyDate] = useState("");
   const [packages, setPackages] = useState([{ id: "", description: "", price: 0, quantity: 1 }]);
-  const [toastMessage, setToastMessage] = useState(null);
 
   const handleSearch = async () => {
     try {
@@ -21,19 +20,12 @@ const OrderingPage = () => {
       if (response.data.length > 0) {
         const client = response.data[0];
         setClientInfo(client);
+        alert("গ্রাহকের তথ্য পাওয়া গেছে");
       } else {
-        setToastMessage({
-          type: "info",
-          title: "গ্রাহক পাওয়া যায়নি",
-          description: "নতুন গ্রাহক হিসেবে অর্ডার করুন",
-        });
+        alert("গ্রাহক পাওয়া যায়নি। নতুন গ্রাহক হিসেবে অর্ডার করুন।");
       }
     } catch (error) {
-      setToastMessage({
-        type: "error",
-        title: "ত্রুটি",
-        description: "গ্রাহকের তথ্য খুঁজে পাওয়া যায়নি",
-      });
+      alert("গ্রাহকের তথ্য খুঁজে পাওয়া যায়নি।");
     }
   };
 
@@ -45,32 +37,26 @@ const OrderingPage = () => {
         packages: packages,
       };
       await axios.post("https://sorboraho-backend.onrender.com/api/orders/", orderData);
-      setToastMessage({
-        type: "success",
-        title: "অর্ডার সফল",
-        description: "আপনার অর্ডার সফলভাবে গৃহীত হয়েছে",
-      });
+      alert("আপনার অর্ডার সফলভাবে গৃহীত হয়েছে।");
     } catch (error) {
-      setToastMessage({
-        type: "error",
-        title: "ত্রুটি",
-        description: "অর্ডার প্রক্রিয়াকরণে সমস্যা হয়েছে",
-      });
+      alert("অর্ডার প্রক্রিয়াকরণে সমস্যা হয়েছে।");
     }
   };
 
+  const calculateTotalPrice = () => {
+    return packages.reduce((total, pkg) => total + pkg.price * pkg.quantity, 0);
+  };
+
+  const handleDeletePackage = (index) => {
+    const updatedPackages = packages.filter((_, i) => i !== index);
+    setPackages(updatedPackages);
+  };
+
   return (
-    <div className="container mx-auto py-8 px-2">
+    <div className="container mx-auto py-8 px-4 w-full max-w-[800px]">
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold">অর্ডার করুন</h1>
       </div>
-
-      {toastMessage && (
-        <div className={`mb-4 p-4 ${toastMessage.type === "success" ? "bg-green-100 text-green-800" : toastMessage.type === "info" ? "bg-blue-100 text-blue-800" : "bg-red-100 text-red-800"} rounded-md`}>
-          <strong>{toastMessage.title}</strong>
-          <p>{toastMessage.description}</p>
-        </div>
-      )}
 
       <div className="mb-4">
         <label htmlFor="phone1" className="font-bold block">ফোন নম্বর</label>
@@ -81,12 +67,15 @@ const OrderingPage = () => {
           value={clientInfo.phone1}
           onChange={(e) => setClientInfo({ ...clientInfo, phone1: e.target.value })}
         />
-        <button
-          className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md"
-          onClick={handleSearch}
-        >
-          খুঁজুন
-        </button>
+        <div className="flex items-center mt-2">
+          <p className="mt-1">ইতোপূর্বে অর্ডার করেছিলেন?</p>
+          <button
+            className="ml-4 px-1 bg-blue-500 text-white rounded-md"
+            onClick={handleSearch}
+          >
+            হ্যা
+          </button>
+        </div>
       </div>
 
       <div className="space-y-4">
@@ -121,7 +110,7 @@ const OrderingPage = () => {
           />
         </div>
         <div>
-          <label htmlFor="address" className="font-bold block">ঠিকানা</label>
+          <label htmlFor="address" className="font-bold block">ডেলিভারি ঠিকানা</label>
           <input
             type="text"
             id="address"
@@ -132,8 +121,8 @@ const OrderingPage = () => {
         </div>
       </div>
 
-      <div className="mb-4">
-        <label htmlFor="supplyDate" className="font-bold block">সরবরাহের তারিখ</label>
+      <div className="mt-4 mb-4">
+        <label htmlFor="supplyDate" className="font-bold block mb-1">সরবরাহের তারিখ</label>
         <select
           id="supplyDate"
           className="w-full p-2 border rounded-md"
@@ -146,26 +135,27 @@ const OrderingPage = () => {
         </select>
       </div>
 
-      <div className="mb-4">
+      <div className="mt-10 mb-4">
         <h2 className="text-2xl font-bold mb-4">প্যাকেজ নির্বাচন করুন</h2>
         <table className="w-full table-auto border-collapse border">
           <thead>
             <tr>
-              <th className="border p-2">বিবরণ</th>
-              <th className="border p-2">মূল্য</th>
-              <th className="border p-2">পরিমাণ</th>
+              <th className="border p-2 w-[40%]">বিবরণ</th>
+              <th className="border p-2 w-[20%]">মূল্য</th>
+              <th className="border p-2 w-[20%]">পরিমাণ</th>
+              <th className="border p-2 w-[20%]">মুছে ফেলুন</th>
             </tr>
           </thead>
           <tbody>
             {packages.map((pkg, index) => (
               <tr key={index}>
-                <td className="border p-2">
+                <td className="border p-2 w-[40%]">
                   <select
                     className="w-full p-2 border rounded-md"
                     value={pkg.id}
                     onChange={(e) => {
                       const newPackages = [...packages];
-                      newPackages[index] = { ...pkg, id: e.target.value };
+                      newPackages[index] = { ...pkg, id: e.target.value, price: e.target.value === "1" ? 300 : 500 };
                       setPackages(newPackages);
                     }}
                   >
@@ -173,8 +163,8 @@ const OrderingPage = () => {
                     <option value="2">৫ কেজি প্যাকেজ</option>
                   </select>
                 </td>
-                <td className="border p-2">{pkg.price} টাকা</td>
-                <td className="border p-2">
+                <td className="border p-2 w-[20%]">{pkg.price} টাকা</td>
+                <td className="border p-2 w-[20%]">
                   <input
                     type="number"
                     className="w-full p-2 border rounded-md"
@@ -186,6 +176,14 @@ const OrderingPage = () => {
                       setPackages(newPackages);
                     }}
                   />
+                </td>
+                <td className="border p-2 text-center w-[20%]">
+                  <button
+                    className="px-2 py-1 bg-red-500 text-white rounded-md"
+                    onClick={() => handleDeletePackage(index)}
+                  >
+                    মুছুন
+                  </button>
                 </td>
               </tr>
             ))}
@@ -199,12 +197,15 @@ const OrderingPage = () => {
         </button>
       </div>
 
-      <button
-        className="mt-4 px-6 py-3 bg-teal-500 text-white text-lg rounded-md"
-        onClick={handleOrder}
-      >
-        অর্ডার নিশ্চিত করুন
-      </button>
+      <div className="flex justify-around items-center mt-8">
+        <div className="text-lg font-bold">মোট মূল্য : {calculateTotalPrice()} টাকা</div>
+        <button
+          className="px-6 py-3 bg-blue-500 text-white text-lg rounded-md"
+          onClick={handleOrder}
+        >
+          অর্ডার নিশ্চিত করুন
+        </button>
+      </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
-import { useState } from "react"
-import axios from "axios"
+import { useState } from "react";
+import axios from "axios";
 
 const ComplaintPage = () => {
   const [complaint, setComplaint] = useState({
@@ -8,42 +8,22 @@ const ComplaintPage = () => {
     phone: "",
     order_no: "",
     message: "",
-  })
-
-  const [toast, setToast] = useState(null)
+  });
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      await axios.post("https://sorboraho-backend.onrender.com/api/complaints/", complaint)
-      setToast({
-        type: "success",
-        title: "অভিযোগ জমা হয়েছে",
-        description: "আপনার অভিযোগ সফলভাবে জমা হয়েছে",
-      })
-      setComplaint({ name: "", email: "", phone: "", order_no: "", message: "" })
+      await axios.post("https://sorboraho-backend.onrender.com/api/complaints/", complaint);
+      alert("অভিযোগ জমা হয়েছে: আপনার অভিযোগ সফলভাবে জমা হয়েছে।");
+      setComplaint({ name: "", email: "", phone: "", order_no: "", message: "" });
     } catch (error) {
-      console.error("Error submitting complaint:", error)
-      setToast({
-        type: "error",
-        title: "ত্রুটি",
-        description: "অভিযোগ জমা দেওয়ার সময় একটি সমস্যা হয়েছে",
-      })
+      console.error("Error submitting complaint:", error);
+      alert("ত্রুটি: অভিযোগ জমা দেওয়ার সময় একটি সমস্যা হয়েছে।");
     }
-  }
+  };
 
   return (
-    <div className="max-w-2xl mx-auto py-8 px-2">
-      {toast && (
-        <div
-          className={`p-4 mb-6 rounded-md ${
-            toast.type === "success" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-          }`}
-        >
-          <strong className="block font-semibold">{toast.title}</strong>
-          <p>{toast.description}</p>
-        </div>
-      )}
+    <div className="max-w-2xl mx-auto py-8 px-4">
       <h1 className="text-3xl font-semibold text-center mb-8">অভিযোগ জমা দিন</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="flex flex-col">
@@ -123,7 +103,7 @@ const ComplaintPage = () => {
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default ComplaintPage
+export default ComplaintPage;

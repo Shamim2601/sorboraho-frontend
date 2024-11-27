@@ -75,7 +75,7 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="container mx-auto py-8 px-2">
+    <div className="container mx-auto py-8 px-4">
       <h1 className="text-3xl font-semibold text-center mb-8">অ্যাডমিন ড্যাশবোর্ড</h1>
 
       {/* Toast Notification */}

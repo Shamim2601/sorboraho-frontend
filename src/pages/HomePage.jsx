@@ -3,7 +3,7 @@ import rawBeefImage from '../assets/raw-beef-1.jpg'
 
 const HomePage = () => {
   return (
-    <div className="max-w-screen-xl py-8 px-2 mx-auto">
+    <div className="max-w-screen-xl py-8 px-4 mx-auto">
       <div className="space-y-8">
         {/* Welcome Section */}
         <div className="text-center">
@@ -12,29 +12,40 @@ const HomePage = () => {
         </div>
 
         {/* Promo Image */}
-        <div className="text-center">
+        <div className="flex justify-center items-center">
           <img src={rawBeefImage} alt="Beef" className="rounded-md" />
+        </div>
+
+        {/* Packages Section */}
+        <div>
+          <h2 className="text-2xl font-bold mb-4">প্যাকেজসমূহ</h2>
+          <div className="space-y-4">
+            <div className="bg-teal-100 p-4 rounded-md">
+              <h3 className="text-lg font-semibold mb-2">৩ কেজি প্যাকেজ</h3>
+              <p>মূল্য : ২১০০/- + ডেলিভারি চার্জ : ১০০/-</p>
+            </div>
+            <div className="bg-teal-100 p-4 rounded-md">
+              <h3 className="text-lg font-semibold mb-2">৫ কেজি প্যাকেজ</h3>
+              <p>মূল্য : ৩৫০০/- + ডেলিভারি চার্জ : ৫০/-</p>
+            </div>
+          </div>
         </div>
 
         {/* Promotions Section */}
         <div>
-          <h2 className="text-2xl font-bold mb-4">এক নজরে...</h2>
+          <h2 className="text-2xl font-bold mb-4">বিজ্ঞপ্তি ...</h2>
           <div className="space-y-4">
             <div className="bg-teal-100 p-4 rounded-md">
-              <h3 className="text-lg font-semibold mb-2">৩ কেজি প্যাকেজ</h3>
-              <p>মূল্য : ২২৫০/- + ডেলিভারি চার্জ : ৫০/-</p>
+              <h3 className="text-lg font-semibold mb-2">প্রসেসিং</h3>
+              <p>গরু বাছাই থেকে মাংস প্রসেসিং এর ক্ষেত্রে কোরবানীর পদ্ধতি অনুসরণ করা হয়।</p>
             </div>
             <div className="bg-teal-100 p-4 rounded-md">
-              <h3 className="text-lg font-semibold mb-2">৫ কেজি প্যাকেজ</h3>
-              <p>মূল্য : ৩৭৫০/- + ডেলিভারি চার্জ : ০/-</p>
+              <h3 className="text-lg font-semibold mb-2">প্রথম অর্ডার</h3>
+              <p>নতুন গ্রাহকদের জন্য প্রথম অর্ডারে ডেলিভারি চার্জ ফ্রি!</p>
             </div>
             <div className="bg-teal-100 p-4 rounded-md">
-              <h3 className="text-lg font-semibold mb-2">১০% ছাড়!</h3>
-              <p>নতুন গ্রাহকদের জন্য প্রথম অর্ডারে ১০% ছাড়</p>
-            </div>
-            <div className="bg-teal-100 p-4 rounded-md">
-              <h3 className="text-lg font-semibold mb-2">বিনামূল্যে ডেলিভারি</h3>
-              <p>৫ কেজি বা তার বেশি অর্ডারে বিনামূল্যে ডেলিভারি</p>
+              <h3 className="text-lg font-semibold mb-2">Bulk Order</h3>
+              <p>যেকোন প্রোগ্রাম এর জন্য অর্ডার নেয়া হয়।</p>
             </div>
           </div>
         </div>
